@@ -1,3 +1,25 @@
+// Funzione per aprire i social link (app se disponibile, altrimenti web)
+function openSocialLink(appUrl, webUrl) {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isAndroid = /android/i.test(userAgent);
+
+    if (isIOS || isAndroid) {
+        // Su mobile: prova ad aprire l'app
+        window.location.href = appUrl;
+        
+        // Se l'app non è installata, dopo 2 secondi apri il sito web
+        setTimeout(() => {
+            window.location.href = webUrl;
+        }, 2000);
+    } else {
+        // Su desktop: apri direttamente il sito web
+        window.open(webUrl, '_blank');
+    }
+    
+    return false;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const btnIos = document.getElementById('btn-ios');
